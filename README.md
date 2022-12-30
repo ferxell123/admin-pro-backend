@@ -2,6 +2,6 @@
 
 Recuerden ejecutar
 
-````
+```
 npm install
 ```
