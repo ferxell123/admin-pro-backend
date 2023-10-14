@@ -1,14 +1,27 @@
 const { response } = require('express');
 const bcryptjs = require('bcryptjs');
-const Usuario = require('../models/Usuario');
+const Usuario = require('../models/usuario');
 const { generarJWT } = require('../helpers/jwt');
 
 const getUsuarios = async (req, res) => {
-    const usuarios = await Usuario.find({}, 'nombre email role google');
+    const desde = Number(req.query.desde) || 0;
+
+    /*     const usuarios = await Usuario.find({}, 'nombre email role google')
+            .skip(desde)
+            .limit(5);
+    
+        const total = await Usuario.count(); */
+    const [usuarios, total] = await Promise.all([
+        Usuario.find({}, 'nombre email role google img')
+            .skip(desde)
+            .limit(5),
+        Usuario.countDocuments()
+    ]);
+
     res.json({
         ok: true,
-        usuarios //nombre de la propiedad igual al valor de la variable
-       
+        usuarios, //nombre de la propiedad igual al valor de la variable
+        total
     });
 }
 
@@ -29,13 +42,13 @@ const crearUsuario = async (req, res = response) => {
 
         //Guardar usuario
         await usuario.save();
-       
+
 
         const token = await generarJWT(usuario.id);
         res.json({
             ok: true,
             usuario,  //nombre de la propiedad igual al valor de la variable
-            token 
+            token
         });
     }
     catch (error) {

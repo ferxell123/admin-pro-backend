@@ -2,7 +2,7 @@
     Path '/api/login'
 */
 const { Router } = require('express');
-const { login } = require('../controllers/auth'); //importamos el modulo que creamos en controllers/auth.js(login)
+const { login } = require('../controllers/auth'); //importamos el controlador que creamos en controllers/auth.js(login)
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos')
 
