@@ -2,9 +2,10 @@
     Path '/api/login'
 */
 const { Router } = require('express');
-const { login, googleSignIn } = require('../controllers/auth'); //importamos el controlador que creamos en controllers/auth.js(login)
+const { login, googleSignIn, renewToken  } = require('../controllers/auth'); //importamos el controlador que creamos en controllers/auth.js(login)
 const { check } = require('express-validator');
 const { validarCampos } = require('../middlewares/validar-campos')
+const { validarJWT } = require('../middlewares/validar-jwt')
 
 const router = Router();
 router.post('/',
@@ -23,6 +24,10 @@ router.post('/google',
     googleSignIn
 );
 
+router.get('/renew',
+    validarJWT,
+    renewToken  
+);
 
 module.exports = router;
 
