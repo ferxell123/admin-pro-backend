@@ -26,11 +26,16 @@ router.post('/',
     crearMedico);
 
 router.put('/:id',
-    [],
+[
+    validarJWT,
+    check('nombre','El nombre del médico es necesario').not().isEmpty(),
+    validarCampos
+],
     actualizarMedico
 );
 
 router.delete('/:id',
+    validarJWT,
     borrarMedico
 );
 
